@@ -1,4 +1,6 @@
 import App from "../../src/client/App.svelte";
+import navigation from "../../src/client/components/Navigation.svelte";
+
 import { render } from "@testing-library/svelte";
 
 jest.mock("../../src/client/components/Navigation.svelte", () =>
