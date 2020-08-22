@@ -2,9 +2,22 @@ import login from "../../../../src/server/web/handlers/login";
 import mocker from "jest-mock-req-res";
 import randomstring from "randomstring";
 import axios from "axios";
+import redis from "redis";
+
+jest.mock("redis", () => {
+  const set = jest
+    .fn()
+    .mockImplementation((key, value, cb: redis.Callback<"OK">) => {
+      cb(null, "OK");
+    });
+  return {
+    createClient: jest.fn().mockReturnThis(),
+    set,
+  };
+});
 
 jest.mock("axios", () => ({
-  post: jest.fn(),
+  post: jest.fn().mockImplementation(() => ({ data: "HERE IS SOME DATA" })),
 }));
 
 jest.mock("randomstring", () => ({
@@ -13,7 +26,7 @@ jest.mock("randomstring", () => ({
 
 let response = mocker.mockResponse();
 beforeEach(() => {
-  (axios.post as jest.Mock).mockReset();
+  (axios.post as jest.Mock).mockClear();
   response = mocker.mockResponse();
 });
 
@@ -27,9 +40,9 @@ describe("handles successes", () => {
   it("calls to Twitch to validate the code", () => {
     expect(axios.post).toHaveBeenCalled();
   });
-  it("redirects to the homepage", () => {
+  it("redirects to the dashboard", () => {
     expect(response.redirect).toHaveBeenCalled();
-    expect(response.redirect).toHaveBeenCalledWith("/");
+    expect(response.redirect).toHaveBeenCalledWith("/dashboard");
   });
 
   it("sets a session cookie", () => {
@@ -49,6 +62,14 @@ describe("handles successes", () => {
     expect(response.cookie).toHaveBeenCalledWith("LOGGED_IN", "1", {
       sameSite: true,
     });
+  });
+
+  it("sets the redis session up correctly", () => {
+    expect((redis as any).set).toHaveBeenCalledWith(
+      randomstring.generate(32),
+      JSON.stringify((axios as any).post().data),
+      expect.any(Function)
+    );
   });
 });
 
