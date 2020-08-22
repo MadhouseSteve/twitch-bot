@@ -6,8 +6,8 @@ import LogoutHandler from "./handlers/logout";
 
 const app = express();
 
-app.use(express.static("output")); // TODO: Add some tests for this stuff
-app.use(express.static("static")); // TODO: Add some tests for this stuff
+app.use(express.static("output")); // Compiled assets
+app.use(express.static("static")); // Static assets
 
 app.get("/login", LoginHandler);
 app.get("/logout", LogoutHandler);
