@@ -63,6 +63,7 @@
     "verbose": true,
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect"
-    ]
+    ],
+    "testURL": "http://localhost:8080/Dashboard/index.html"
   }
 }
