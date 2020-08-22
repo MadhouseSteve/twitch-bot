@@ -11,6 +11,10 @@ jest.mock("../../src/client/pages/Homepage.svelte", () =>
   require("./mocks/Homepage.svelte")
 );
 
+jest.mock("../../src/client/pages/Dashboard.svelte", () =>
+  require("./mocks/Dashboard.svelte")
+);
+
 describe("app renders", () => {
   it("renders app", () => {
     const { container } = render(App);
@@ -21,9 +25,21 @@ describe("app renders", () => {
     const { container } = render(App);
     expect(container).toContainHTML("NAVIGATION!");
   });
+});
 
-  it("contains the homepage", () => {
+describe("routing", () => {
+  it("shows the homepage on /", () => {
+    // @ts-ignore
+    delete window.location;
+    (window.location as Partial<Location>) = { pathname: "/" };
     const { container } = render(App);
     expect(container).toContainHTML("HOMEPAGE!");
+  });
+  it("shows the dashboard on /dashboard", () => {
+    // @ts-ignore
+    delete window.location;
+    (window.location as Partial<Location>) = { pathname: "/dashboard" };
+    const { container } = render(App);
+    expect(container).toContainHTML("DASHBOARD!");
   });
 });

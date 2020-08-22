@@ -1,11 +1,26 @@
 import logout from "../../../../src/server/web/handlers/logout";
 import mocker from "jest-mock-req-res";
-import { request } from "express";
+import redis from "redis";
+import randomstring from "randomstring";
+
+jest.mock("redis", () => {
+  const del = jest.fn().mockImplementation((key, cb: redis.Callback<"OK">) => {
+    cb(null, "OK");
+  });
+  return {
+    createClient: jest.fn().mockReturnThis(),
+    del,
+  };
+});
 
 let response = mocker.mockResponse();
 beforeEach(() => {
   response = mocker.mockResponse();
-  let request = mocker.mockRequest();
+  let request = mocker.mockRequest({
+    headers: {
+      cookie: "LOGIN_TOKEN=SOME SESSION IDENTIFIER; LOGGED_IN=1",
+    },
+  });
   logout(request, response);
 });
 
@@ -23,5 +38,12 @@ describe("logout handler", () => {
   it("removes the logged in cookie", () => {
     expect(response.clearCookie).toHaveBeenCalled();
     expect(response.clearCookie).toHaveBeenCalledWith("LOGGED_IN");
+  });
+
+  it("removes the redis key", () => {
+    expect((redis as any).del).toHaveBeenCalledWith(
+      "SOME SESSION IDENTIFIER",
+      expect.any(Function)
+    );
   });
 });

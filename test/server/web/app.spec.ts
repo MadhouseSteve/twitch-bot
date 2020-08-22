@@ -17,13 +17,9 @@ describe("home page", () => {
   });
 });
 
-describe("404", () => {
-  it("responds with 404", (done) => {
-    request(server).get("/nothing").expect(404, done);
-  });
-
-  it("responds with 404 text", (done) => {
-    request(server).get("/nothing").expect("Not Found", done);
+describe("no matches", () => {
+  it("responds with 200", (done) => {
+    request(server).get("/nothing").expect(200, done);
   });
 });
 
