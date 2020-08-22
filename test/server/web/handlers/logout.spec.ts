@@ -46,4 +46,15 @@ describe("logout handler", () => {
       expect.any(Function)
     );
   });
+
+  it("doesn't remove the redis key if there's no cookie", () => {
+    const request = mocker.mockRequest({
+      headers: {
+        cookie: "",
+      },
+    });
+    ((redis as any).del as jest.Mock).mockClear();
+    logout(request, response);
+    expect((redis as any).del).not.toHaveBeenCalled();
+  });
 });
