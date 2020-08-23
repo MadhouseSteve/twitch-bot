@@ -3,8 +3,14 @@ Website:
   ✔ Login/Logout link @started(20-08-22 13:07) @done(20-08-22 15:17) @lasted(2h10m5s)
   ✔ Dashboard @done(20-08-22 16:51)
   ✔ Add Favicon @done(20-08-22 17:26)
+  ☐ Join Bot to Channel @started(20-08-23 16:38)
 
 Server:
   ✔ Validate CODE @done(20-08-22 15:17)
+  ☐ Save user to DB on Login
+  ☐ Save channel to DB on Join Bot request
 
 Bot:
+  ☐ Save channel connections to DB
+  ☐ Load channel connections from DB
+  ☐ Join channels

@@ -1,7 +1,7 @@
-<script>
+<script lang="typescript">
   import Navigation from "./components/Navigation.svelte";
   import Homepage from "./pages/Homepage.svelte";
-  import Dashboard from "../../test/client/mocks/Dashboard.svelte";
+  import Dashboard from "./pages/Dashboard.svelte";
 </script>
 
 <Navigation />

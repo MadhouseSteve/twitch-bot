@@ -1,4 +1,4 @@
-<script>
+<script lang="typescript">
   let login_url = "https://id.twitch.tv/oauth2/authorize?";
   login_url += "&client_id=" + process.env.TWITCH_CLIENT_ID;
   login_url += "&redirect_uri=http://localhost:3000/login";
