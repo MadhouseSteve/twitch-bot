@@ -38,7 +38,7 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@rollup/plugin-typescript": "^5.0.2",
-    "@types/express": "^4.17.7",
+    "@types/express": "^4.17.8",
     "@types/randomstring": "^1.1.6",
     "@types/redis": "^2.8.26",
     "axios": "^0.20.0",
